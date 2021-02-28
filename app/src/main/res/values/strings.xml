@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">WebinarApp</string>
+    <string name="email">Email</string>
+    <string name="codigo">Codigo</string>
+    <string name="name">Nombre</string>
+    <string name="password">Contraseña</string>
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="sign_up_button">Registrarse</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_add_webinar">Añadir Webinar</string>
+    <string name="menu_logout">Cerrar Sesión</string>
+    <string name="lbl_register">Crea una cuenta</string>
+    <string name="lbl_login">Ya tengo cuenta, iniciar sesión</string>
+    <string name="title_webinar">Título</string>
+    <string name="image_webinar">Imagen</string>
+    <string name="description_webinar">Descripción</string>
+    <string name="date_webinar">Fecha de inicio</string>
+
+    <string name="label_webinar">CREAR UN WEBINAR</string>
+    <string name="link_webinar">Enlace</string>
+    <string name="image_button">Imagen</string>
+    <string name="link_ubicacion">Ubicación</string>
+    <string name="ubi_button">Ubicación</string>
+    <string name="save_webinar_button">Guardar</string>
+    <string name="editar_webinar_button">Editar</string>
+    <string name="eliminar_webinar_button">Eliminar</string>
+    <string name="cancel_webinar_button">Cancelar</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="lbl_titulo">Titulo</string>
+    <string name="txt_vacio"></string>
+    <string name="lbl_imagen">Imagen</string>
+    <string name="lbl_categoria">Categoria</string>
+    <string name="lbl_usuario">Usuario</string>
+    <string name="btn_aprobar">Aprobar</string>
+    <string name="btn_inscribirse">Apuntarse</string>
+    <string name="btn_rechazar">Rechazar</string>
+    <string name="btn_info">Info</string>
+    <string name="lbl_ventana_aprob">Lista pendiente de Webinar</string>
+    <string name="lbl_ventana_home">Webinars disponibles</string>
+    <string name="lbl_ventana_home_organizer">Administración de Webinars</string>
+    <string name="title_activity_register">Registro de Usuario</string>
+    <string name="lbl_title_register">Registrarse</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_main">Crear Webinar</string>
+    <string name="title_activity_home_user">Home Usuario</string>
+    <string name="title_activity_home_organizer">Home Organizador</string>
+    <string name="title_activity_detail">Detalle</string>
+    <string name="title_activity_detail_edit">Detalle</string>
+    <string name="fecha_lbl">yyyy/mm/dd</string>
+    <string name="fecha_btn">Fecha de inicio</string>
+    <string name="hora_lbl">Hora de inicio</string>
+    <string name="hora_final">Hora de finalizar</string>
+    <string name="fecha_finalizar">Fecha de fin</string>
+    <string name="hora_btn">Hora</string>
+    <string name="btn_modificar">Modificar</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="nombre_expositor">Expositor</string>
+    <string name="observacion">Observacion</string>
+    <string name="in_estado">Cambiar Estado</string>
+    <string name="t_estado">Estado</string>
+</resources>

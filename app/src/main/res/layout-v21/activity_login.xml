@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="352dp"
+            android:layout_height="117dp"
+            android:layout_marginBottom="50dp"
+            app:srcCompat="@drawable/webinar" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:drawableStart="@drawable/ic_person"
+            android:drawablePadding="5dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/colorWhite"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:autofillHints="" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="5dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/colorWhite"
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:autofillHints="" />
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="10dp"
+            android:padding="20dp"/>
+
+        <TextView
+            android:id="@+id/lblRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="@string/lbl_register" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
