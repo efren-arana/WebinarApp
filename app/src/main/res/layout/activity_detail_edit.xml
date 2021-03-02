@@ -28,12 +28,18 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvDescripcionDetail"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="14sp" />
+            android:layout_height="111dp">
+
+            <TextView
+                android:id="@+id/tvDescripcionDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="16sp" />
+        </ScrollView>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -50,13 +56,15 @@
 
                     <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/lbl_expositor"
                             android:layout_width="138dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/nombre_expositor" />
+                            android:text="@string/nombre_expositor"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/lbl_getExpositor"
@@ -72,7 +80,9 @@
                             android:id="@+id/lbl_f_inicio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fecha_btn" />
+                            android:text="@string/fecha_btn"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/lbl_get_f_inicio"
@@ -88,7 +98,9 @@
                             android:id="@+id/lbl_f_final"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/fecha_finalizar" />
+                            android:text="@string/fecha_finalizar"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/lbl_get_f_final"
@@ -104,7 +116,9 @@
                             android:id="@+id/lbl_Estado"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/t_estado" />
+                            android:text="@string/t_estado"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/lbl_getEstado"
@@ -120,7 +134,9 @@
                             android:id="@+id/lbl_enlace"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/link_webinar" />
+                            android:text="@string/link_webinar"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/lbl_getEnlace"

@@ -81,6 +81,7 @@ public class DetailEditActivity extends AppCompatActivity {
                 Intent intent=new Intent(DetailEditActivity.this,MainActivity.class);
                 intent.putExtra("token",token);
                 intent.putExtra("ing_mod",ing_mod);
+                intent.putExtra("rol",Rol);
                 intent.putExtra("id",id);
                 startActivity(intent);
                 finish();
@@ -168,7 +169,7 @@ public class DetailEditActivity extends AppCompatActivity {
         if (webinar!=null)
         {
             imgItemDetail.setImageResource(itemDetail.getImgResource());
-            tvTituloDetail.setText(webinar.getTitle()+"  " +webinar.getId());
+            tvTituloDetail.setText(webinar.getTitle());
             tvDescripcionDetail.setText(webinar.getDescription());
             tvFechaInicio.setText(Formato(webinar.getStartDate(),DATE_FORMAT_8,DATE_FORMAT_12));
             tvFechaFinal.setText(Formato(webinar.getFinishDate(),DATE_FORMAT_8,DATE_FORMAT_12));
@@ -238,10 +239,13 @@ public class DetailEditActivity extends AppCompatActivity {
     public void redirigir_home()
     {
        // String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
-        Intent intent = new Intent(this, HomeOrganizerActivity.class);
-        intent.putExtra("token",token);
-        startActivity(intent);
-        finish();
+
+            Intent intent = new Intent(this, HomeOrganizerActivity.class);
+            intent.putExtra("token", token);
+            intent.putExtra("rol", Rol);
+            startActivity(intent);
+            finish();
+
     }
 
 

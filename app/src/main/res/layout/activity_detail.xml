@@ -8,26 +8,125 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:padding="10dp"
 tools:context=".DetailActivity">
-<ImageView
-    android:id="@+id/imgItemDetail"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toTopOf="parent" />
-<TextView
-    android:id="@+id/tvTituloDetail"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20sp"
-    android:textStyle="bold"
-    app:layout_constraintTop_toBottomOf="@+id/imgItemDetail"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"/>
-<TextView
-    android:id="@+id/tvDescripcionDetail"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="14sp"
-    app:layout_constraintTop_toBottomOf="@+id/tvTituloDetail"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="10dp">
+
+        <ImageView
+            android:id="@+id/imgItemDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvTituloDetail"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="84dp">
+
+            <TextView
+                android:id="@+id/tvDescripcionDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textSize="16sp" />
+        </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="125dp">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/lbl_expo_user"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nombre_expositor"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lbl_getExpositor_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_f_inicio_user"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fecha_btn"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lbl_get_f_inicio_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_f_final_user"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fecha_finalizar"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lbl_get_f_final_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_Enlace_user"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/link_webinar"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lbl_get_enlace_user"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

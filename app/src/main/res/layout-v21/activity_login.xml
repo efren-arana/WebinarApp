@@ -68,6 +68,12 @@
             android:textSize="14sp"
             android:text="@string/lbl_register" />
 
+        <ProgressBar
+            android:id="@+id/progressBar_login"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="74dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

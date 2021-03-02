@@ -2,6 +2,7 @@ package com.company.webinarapp.adaptador;
 
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,29 +70,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     }
 
     public void filter(final String strSearch) {
-        if (strSearch.length() == 0) {
-            items.clear();
-            items.addAll(originalItems);
-        }
-        else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                items.clear();
-                List<ItemList> collect = originalItems.stream()
-                        .filter(i -> i.getTitulo().toLowerCase().contains(strSearch))
-                        .collect(Collectors.toList());
 
-                items.addAll(collect);
-            }
-            else {
+            if (strSearch.length() == 0) {
                 items.clear();
-                for (ItemList i : originalItems) {
-                    if (i.getTitulo().toLowerCase().contains(strSearch)) {
-                        items.add(i);
+                items.addAll(originalItems);
+                Log.d("recycleradapter", "llegue aqui al filtre");
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    items.clear();
+                    List<ItemList> collect = originalItems.stream()
+                            .filter(i -> i.getTitulo().toLowerCase().contains(strSearch))
+                            .collect(Collectors.toList());
+
+                    items.addAll(collect);
+                } else {
+                    items.clear();
+                    for (ItemList i : originalItems) {
+                        if (i.getTitulo().toLowerCase().contains(strSearch)) {
+                            items.add(i);
+                        }
                     }
                 }
             }
-        }
-        notifyDataSetChanged();
+            notifyDataSetChanged();
+
     }
 
 
