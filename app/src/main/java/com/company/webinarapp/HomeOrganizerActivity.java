@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -48,7 +50,15 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
     private ArrayList<Webinar> webinars = null;
     Handler handler = new Handler();
     int contador = 0;
+    private String filtro="ACEPTADOS";
+    private Button btn_aprobado,btn_registrado,btn_rechazado,btn_revisando,btn_caducado,btn_todos;
+    private Button btn_ing_web_org,btn_actualizar;
+    private LinearLayout botones_admin, botones_org;
 
+
+    private static final String org="ROLE_ORG";
+    private static final String user="ROLE_USER";
+    private static final String admin="ROLE_ADMIN";
     private static int LAUNCH_DETAIL = 1;
     private static int LAUNCH_MAIN_ACTIVITY = 2;
 
@@ -63,9 +73,98 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
         apiService = ApiUtils.getAPIService();
 
 
+
+       // botones_admin.setVisibility(View.GONE);
+
         initViews();
         initValues(apiService);
         initListener();
+
+        btn_todos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="TODOS";
+                items=null;
+                llenar();
+            }
+        });
+
+        btn_aprobado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="ACEPTADO";
+                items=null;
+                llenar();
+
+            }
+        });
+
+
+        btn_registrado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="REGISTRADO";
+                items=null;
+                llenar();
+
+            }
+        });
+
+        btn_revisando.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="REVISANDO";
+                items=null;
+                llenar();
+            }
+        });
+
+        btn_rechazado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="RECHAZADO";
+                items=null;
+                llenar();
+                Log.d("MyApp", "boton rechazado "+filtro+"  "+webinars.size());
+            }
+        });
+        btn_caducado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filtro="CADUCADO";
+                items=null;
+                llenar();
+            }
+        });
+
+        btn_ing_web_org.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ing_mod = "INGRESAR";
+                Intent intent = new Intent(HomeOrganizerActivity.this, MainActivity.class);
+                intent.putExtra("rol",Rol);
+                intent.putExtra("token", token);
+                intent.putExtra("ing_mod", ing_mod);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+        btn_actualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                filtro="ACEPTADO";
+                items=null;
+               /* llenar();
+                Log.d("MyApp", "boton rechazado "+filtro+"  "+webinars.size());*/
+                ListarWebinar(apiService);
+            }
+        });
+
+
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +180,28 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
         rvLista = findViewById(R.id.rvLista);
         svSearch = findViewById(R.id.svSearch);
         progressBar=findViewById(R.id.progressBar_home_org);
+        btn_aprobado=(Button)findViewById(R.id.btn_aprobado);
+        btn_caducado=(Button)findViewById(R.id.btn_caducado);
+        btn_rechazado=(Button)findViewById(R.id.btn_rechazado);
+        btn_revisando=(Button)findViewById(R.id.btn_revisando);
+        btn_registrado=(Button)findViewById(R.id.btn_registrando);
+        btn_todos=(Button)findViewById(R.id.btn_todos);
+        botones_admin=(LinearLayout)findViewById(R.id.l_botones);
+        botones_org =(LinearLayout)findViewById(R.id.l_organizador);
+        btn_ing_web_org=(Button) findViewById(R.id.btn_ingresar_web_org);
+        btn_actualizar=(Button)findViewById(R.id.btn_actualizar_org);
+
+        if(Rol == admin || (Rol != null && Rol.equals(admin))) {
+            botones_admin.setVisibility(View.VISIBLE);
+            botones_org.setVisibility(View.GONE);
+        }
+        else {
+            botones_org.setVisibility(View.VISIBLE);
+            botones_admin.setVisibility(View.GONE);
+        }
+
+
+        Log.d("MyApp", "Rol de homeOrgna "+Rol);
 
     }
 
@@ -89,26 +210,20 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
         rvLista.setLayoutManager(manager);
         ListarWebinar(apiService);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                llenar();
-                progressBar.setVisibility(View.GONE);
-            }
-        }, 5000);
-
 
     }
 
 
     private void llenar() {
-        items = getItems();
+        items = getItems(filtro);
         if (items != null) {
             adapter = new RecyclerAdapter(items, this);
             rvLista.setAdapter(adapter);
 
 
+        }else
+        {
+            Log.d("MyApp", "NO se lleno items ");
         }
     }
 
@@ -116,17 +231,24 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
         svSearch.setOnQueryTextListener(this);
     }
 
-    private List<ItemList> getItems() {
+    private List<ItemList> getItems(String Status) {
         List<ItemList> itemLists = new ArrayList<>();
 
         if (webinars != null) {
             for (Webinar w : webinars) {
 
-                itemLists.add(new ItemList(w.getId(), w.getTitle(), w.getDescription(), R.drawable.img_base));
-                Log.d("MyApp", "for de webinar ");
+                if(filtro == w.getStatusWebinar() || (w.getStatusWebinar() != null && w.getStatusWebinar().equals(filtro))) {
+                    itemLists.add(new ItemList(w.getId(), w.getTitle(), w.getDescription(), R.drawable.img_base));
+                    Log.d("MyApp", "for de webinar "+w.getStatusWebinar());
+                }
+                if(Status=="TODOS")
+                {
+                        itemLists.add(new ItemList(w.getId(), w.getTitle(), w.getDescription(), R.drawable.img_base));
+                        Log.d("MyApp", "for de webinar "+w.getStatusWebinar());
+                }
             }
         } else {
-            Log.d("MyApp", "No entre al for de webinar ");
+            Log.d("MyApp", "No entre al for de webinar : "+filtro);
         }
 
         return itemLists;
@@ -135,11 +257,24 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
     @Override
     public void itemClick(ItemList item) {
 
-        Intent intent = new Intent(this, DetailEditActivity.class);
-        intent.putExtra("itemDetail", item);
-        intent.putExtra("token", token);
-        intent.putExtra("rol", Rol);
-        startActivity(intent);
+        if(Rol == admin || (Rol != null && Rol.equals(admin)))
+        {
+            Intent intent = new Intent(this, DetailEditActivity.class);
+            intent.putExtra("itemDetail", item);
+            intent.putExtra("token", token);
+            intent.putExtra("rol", Rol);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra("itemDetail", item);
+                intent.putExtra("token",token);
+                intent.putExtra("rol",Rol);
+                startActivity(intent);
+                finish();
+        }
 
     }
 
@@ -150,33 +285,43 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapter.filter(newText);
+        if(items!=null) {
+            adapter.filter(newText);
+        }
         return false;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        if(Rol == admin || (Rol != null && Rol.equals(admin))) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.add_webinar:
-                ing_mod = "INGRESAR";
-                Intent intent = new Intent(HomeOrganizerActivity.this, MainActivity.class);
-                intent.putExtra("token", token);
-                intent.putExtra("ing_mod", ing_mod);
-                startActivity(intent);
-                finish();
-                return true;
-            case R.id.logout:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            switch (item.getItemId()) {
+                case R.id.add_webinar:
+                    ing_mod = "INGRESAR";
+                    Intent intent = new Intent(HomeOrganizerActivity.this, MainActivity.class);
+                    intent.putExtra("rol",Rol);
+                    intent.putExtra("token", token);
+                    intent.putExtra("ing_mod", ing_mod);
+                    startActivity(intent);
+                    finish();
+                    return true;
+                case R.id.logout:
+                    Log.d("MyApp", "Es la opcion de alado : " + filtro);
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
         }
     }
 
@@ -187,17 +332,21 @@ public class HomeOrganizerActivity extends AppCompatActivity implements Recycler
                 if (response.isSuccessful()) {
                     ListadoWebinar lweb = response.body();
                     webinars = lweb.getWebinars();
+                    llenar();
+                    progressBar.setVisibility(View.GONE);
                     Log.d("MyApp", "Toy dentro : " + webinars.size());
                     Log.d("prueba", "Titulo: " + webinars.get(0).getTitle());
 
                 } else {
-                    Toast.makeText(HomeOrganizerActivity.this, "No enviado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeOrganizerActivity.this, "Error en la consulta", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<ListadoWebinar> call, Throwable t) {
                 Log.d("MyApp", "Error de consulta : " + t.getMessage());
+                progressBar.setVisibility(View.GONE);
 
             }
         });

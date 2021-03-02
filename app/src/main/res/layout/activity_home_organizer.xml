@@ -46,6 +46,91 @@
 
         </androidx.appcompat.widget.SearchView>
 
+        <LinearLayout
+            android:id="@+id/l_botones"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_todos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_todos" />
+
+                <Button
+                    android:id="@+id/btn_aprobado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_aceptado" />
+
+                <Button
+                    android:id="@+id/btn_rechazado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_Rechazado" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_revisando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_Revisando" />
+
+                <Button
+                    android:id="@+id/btn_caducado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_caducado" />
+
+                <Button
+                    android:id="@+id/btn_registrando"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/btn_Registrado" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_organizador"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_ingresar_web_org"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_ingresar_web" />
+
+            <Button
+                android:id="@+id/btn_actualizar_org"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_actualizar" />
+        </LinearLayout>
+
         <ProgressBar
             android:id="@+id/progressBar_home_org"
             style="?android:attr/progressBarStyle"

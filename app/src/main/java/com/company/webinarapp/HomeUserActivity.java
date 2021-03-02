@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +40,13 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
     private static String Rol;
     Handler handler = new Handler();
     private ArrayList<Webinar> webinars=null;
+    private ProgressBar progressBar_user;
     int contador=0;
+    private Button btn_actualizar,btn_m_calificados;
+
+    private static final String org="ROLE_ORG";
+    private static final String user="ROLE_USER";
+    private static final String admin="ROLE_ADMIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +57,24 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
         token = getIntent().getStringExtra("token");
         Rol = getIntent().getStringExtra("rol");
         setSupportActionBar(toolbar);
-        initViews();
+        initViews(apiService);
         initValues();
         initListener();
+        btn_actualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar_user.setVisibility(View.VISIBLE);
+                items=null;
+                ListarWebinar(apiService);
+            }
+        });
     }
-    private void initViews(){
+    private void initViews(APIService apiService){
         rvLista = findViewById(R.id.rvLista);
         svSearch = findViewById(R.id.svSearch);
+        progressBar_user=(ProgressBar)findViewById(R.id.progressBar_user);
+        btn_actualizar=(Button)findViewById(R.id.btn_actualizar_user);
+        btn_m_calificados=(Button)findViewById(R.id.btn_mejor_calificados);
     }
 
     private void initValues() {
@@ -62,13 +82,13 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
         rvLista.setLayoutManager(manager);
         ListarWebinar(apiService);
 
-        handler.postDelayed(new Runnable() {
+        /*handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 llenar();
             }
-        },2000);
+        },2000);*/
 
     }
 
@@ -80,7 +100,6 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
             adapter = new RecyclerAdapter(items, this);
             rvLista.setAdapter(adapter);
 
-
         }
     }
 
@@ -89,13 +108,17 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
     }
 
     private List<ItemList> getItems() {
+
+
         List<ItemList> itemLists = new ArrayList<>();
 
         if (webinars!=null) {
             for (Webinar w : webinars) {
-
+                String fitro="ACEPTADO";
+                if(fitro == w.getStatusWebinar() || (w.getStatusWebinar() != null && w.getStatusWebinar().equals(fitro))){
                 itemLists.add(new ItemList(w.getId(),w.getTitle(), w.getDescription(), R.drawable.img_base));
-                Log.d("MyApp","for de webinar ");
+                Log.d("MyApp","for de webinar "+fitro);
+                }
             }
         }
         else
@@ -120,9 +143,12 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
         return false;
     }
 
+
     @Override
     public boolean onQueryTextChange(String newText) {
-        adapter.filter(newText);
+        if(items!=null) {
+            adapter.filter(newText);
+        }
         return false;
     }
 
@@ -135,20 +161,24 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
                 if(response.isSuccessful()) {
                     ListadoWebinar lweb = response.body();
                     webinars = lweb.getWebinars();
+
+                    progressBar_user.setVisibility(View.GONE);
                     Log.d("MyApp","Toy dentro : "+webinars.size());
                     Log.d("prueba","Titulo: "+webinars.get(0).getTitle());
 
-
+                    llenar();
                 }
                 else
                 {
-                    Toast.makeText(HomeUserActivity.this, "No enviado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeUserActivity.this, "Error en la respuesta", Toast.LENGTH_SHORT).show();
+                    progressBar_user.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<ListadoWebinar> call, Throwable t) {
                 Log.d("MyApp","Error de consulta : "+t.getMessage());
+                progressBar_user.setVisibility(View.GONE);
 
             }
         });

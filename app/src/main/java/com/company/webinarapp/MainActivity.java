@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static String token_recuperado="";
     private static String ing_mod;
+    private static String Rol;
     private static int id;
+    private static String Latitud,Longitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         token_recuperado = getIntent().getStringExtra("token");
         ing_mod=getIntent().getStringExtra("ing_mod");
         id=getIntent().getIntExtra("id",0);
+        Rol = getIntent().getStringExtra("rol");
+        Latitud=getIntent().getStringExtra("coordX");
+        Longitud=getIntent().getStringExtra("coordY");
 
         // Find the toolbar view inside the activity layout
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -203,6 +208,13 @@ public class MainActivity extends AppCompatActivity {
             enlace.setText(webinar.getUrlWebinar());
             txt_expo.setText(webinar.getNameExpositor());
             txt_obs.setText(webinar.getObservacion()+" ");
+            if(webinar.getLocationWebinar()!=null) {
+                ubicacion.setText("(" + webinar.getLocationWebinar().getLongitud() + "," + webinar.getLocationWebinar().getLatitud() + ")");
+            }
+            lbl_hora_inicio.setText(Formato(webinar.getStartDate(),DATE_FORMAT_2,DATE_FORMAT_12));
+            lbl_fecha_inicio.setText(Formato(webinar.getStartDate(),DATE_FORMAT_3,DATE_FORMAT_12));
+            lbl_hora_final.setText(Formato(webinar.getFinishDate(),DATE_FORMAT_2,DATE_FORMAT_12));
+            lbl_fecha_final.setText(Formato(webinar.getFinishDate(),DATE_FORMAT_3,DATE_FORMAT_12));
 
         }
     }
@@ -384,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if(resultCode == Activity.RESULT_OK){
-                coordX=data.getStringExtra("coordX");
+               coordX=data.getStringExtra("coordX");
                 coordY=data.getStringExtra("coordY");
                 ubicacion.setText("("+coordX+","+coordY+")");
             }
@@ -424,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
         String hora_web_inicio= lbl_hora_inicio.getText().toString();
         String dia_web_final = lbl_fecha_final.getText().toString();
         String hora_web_final = lbl_hora_final.getText().toString();
-        String expositor=txt_obs.getText().toString();
+        String expositor=txt_expo.getText().toString();
         String observacion=txt_obs.getText().toString();
 
         String inicio= ConvertirDateTime(hora_web_inicio,dia_web_inicio);
@@ -442,6 +454,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Log.d("MyApp", "cordX:  " + coordX+" cordY"+coordY);
+                Log.d("MyApp", "Latitud  " + Latitud+" Longitud"+Longitud);
 
                 Webinar webinar = new Webinar();
                 webinar.setDescription(desc);
@@ -559,7 +572,7 @@ public class MainActivity extends AppCompatActivity {
         String hora_web_inicio= lbl_hora_inicio.getText().toString();
         String dia_web_final = lbl_fecha_final.getText().toString();
         String hora_web_final = lbl_hora_final.getText().toString();
-        String expositor=txt_obs.getText().toString();
+        String expositor=txt_expo.getText().toString();
         String observacion=txt_obs.getText().toString();
 
         String inicio= ConvertirDateTime(hora_web_inicio,dia_web_inicio);
@@ -573,7 +586,10 @@ public class MainActivity extends AppCompatActivity {
 
                 LocationWebinar locationWebinar = new LocationWebinar();
                 locationWebinar.setLatitud(coordX);
-                locationWebinar.setLatitud(coordY);
+                locationWebinar.setLongitud(coordY);
+                Log.d("MyApp", "cordX:  " + coordX+" cordY"+coordY);
+                Log.d("MyApp", "Latitud  " + Latitud+" Longitud"+Longitud);
+
                 Webinar webinar = new Webinar();
                 webinar.setDescription(desc);
                 webinar.setStartDate(inicio);
@@ -588,20 +604,19 @@ public class MainActivity extends AppCompatActivity {
 
                 webinar.setLocationWebinar(locationWebinar);
 
-
                updateWebinarPut(apiService,webinar);
 
 
             }
             else {
                 Toast.makeText(this,"Token no generado",Toast.LENGTH_SHORT).show();
-                modificarWebinar.setEnabled(true);
+         //       modificarWebinar.setEnabled(true);
             }
         }
         else{
 
             Toast.makeText(this,"Debes de llenar todos los campos",Toast.LENGTH_SHORT).show();
-            modificarWebinar.setEnabled(true);
+//            modificarWebinar.setEnabled(true);
         }
 
 
@@ -613,8 +628,8 @@ public class MainActivity extends AppCompatActivity {
     public void updateWebinarPut(APIService apiService,Webinar webinar)
     {
 
-        String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
-        apiService.UpdateWebinar(webinar,t,id).enqueue(new Callback<ResponseBody>() {
+      //  String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
+        apiService.UpdateWebinar(webinar,token_recuperado,id).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -646,9 +661,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void redireccionar_mod()
     {
-        String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
+    //    String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
         Intent intent = new Intent(this, HomeOrganizerActivity.class);
-        intent.putExtra("token",t);
+        intent.putExtra("token",token_recuperado);
+        intent.putExtra("rol",Rol);
         startActivity(intent);
         finish();
     }
