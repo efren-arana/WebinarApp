@@ -68,4 +68,8 @@
     <string name="observacion">Observacion</string>
     <string name="in_estado">Cambiar Estado</string>
     <string name="t_estado">Estado</string>
+
+    <string name="edtxt_comentar">Comentar</string>
+    <string name="btn_comantarycalificar">Comentar</string>
+
 </resources>

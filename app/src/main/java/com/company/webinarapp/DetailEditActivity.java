@@ -6,14 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.company.webinarapp.API.APIService;
 import com.company.webinarapp.API.ApiUtils;
+import com.company.webinarapp.DAO.CalificacionComentario;
 import com.company.webinarapp.DAO.ObjetoWebinar;
 import com.company.webinarapp.DAO.Webinar;
 import com.company.webinarapp.model.ItemList;
@@ -33,7 +37,11 @@ public class DetailEditActivity extends AppCompatActivity {
     private TextView tvDescripcionDetail,tvExpositor,tvFechaInicio,tvFechaFinal,tvEstadoWebinar,tvEmai,tvEnlace;
     private ItemList itemDetail;
     private Spinner spinner;
-    private Button btn_eliminar,btn_editar,btn_camb_estado;
+    private Button btn_eliminar,btn_editar,btn_camb_estado,btn_calificarComentar;
+
+    private RatingBar rtbar;
+    private EditText edtxtComentario;
+
     private  static int id;
     private static String token;
     private static String Rol;
@@ -106,6 +114,38 @@ public class DetailEditActivity extends AppCompatActivity {
 
             }
         });
+
+/*
+        btn_calificarComentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int calificacion = (int)rtbar.getRating();
+                String comentario = String.valueOf(edtxtComentario.getText());
+
+                if(calificacion>0 && !comentario.isEmpty())
+                {
+                    CalificacionComentario objCalifica = new CalificacionComentario();
+                    objCalifica.setRate(calificacion);
+                    objCalifica.setComment(comentario);
+                    inactivar_btn();
+                    CalificacionWebinar(objCalifica);
+                }
+                else {
+                    Toast.makeText(DetailEditActivity.this, "Llene todos los campos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+*/
+
+        btn_calificarComentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //inactivar_btn();
+                CalificacionWebinar(apiService);
+            }
+        });
+
     }
 
     private void initViews() {
@@ -122,6 +162,9 @@ public class DetailEditActivity extends AppCompatActivity {
         btn_camb_estado=(Button)findViewById(R.id.btn_estado);
         tvEnlace=(TextView)findViewById(R.id.lbl_getEnlace);
 
+        rtbar=findViewById(R.id.rating_bar);
+        edtxtComentario=findViewById(R.id.edtxtComentario);
+        btn_calificarComentar = findViewById(R.id.btn_calificar_comentar);
     }
 
 
@@ -130,6 +173,7 @@ public class DetailEditActivity extends AppCompatActivity {
         btn_eliminar.setEnabled(false);
         btn_camb_estado.setEnabled(false);
         btn_editar.setEnabled(false);
+        btn_calificarComentar.setEnabled(false);
     }
 
     private void activar_btn()
@@ -137,6 +181,8 @@ public class DetailEditActivity extends AppCompatActivity {
         btn_eliminar.setEnabled(true);
         btn_camb_estado.setEnabled(true);
         btn_editar.setEnabled(true);
+        btn_calificarComentar.setEnabled(true);
+
     }
 
     public String Formato(String date,String Formato_OUT,String Format_INT) {
@@ -270,11 +316,70 @@ public class DetailEditActivity extends AppCompatActivity {
         });
     }
 
+//funcion para calificacion y comentario de webinar
+
+    private void CalificacionWebinar(APIService apiService)//APIService apiService)
+    {
+        int calificacion = (int)rtbar.getRating();
+        String comentario = String.valueOf(edtxtComentario.getText());
+
+        if(calificacion>0 && !comentario.isEmpty())
+        {
+            CalificacionComentario objCalifica = new CalificacionComentario();
+            objCalifica.setRate(calificacion);
+            objCalifica.setComment(comentario);
+            apiService.CalificaWebinar(id,token,objCalifica).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                    if (response.isSuccessful())
+                    {
+                        //redirigir_home();
+                        Toast.makeText(DetailEditActivity.this,"Gracias por comentar",Toast.LENGTH_SHORT).show();
+                        activar_btn();
+                    }else{
+                        Toast.makeText(DetailEditActivity.this,"No, se logro enviar",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    Log.d("Error Status Web","error: "+t.getMessage());
+                    activar_btn();
+
+                }
+            });
+        }
+        else {
+            Toast.makeText(DetailEditActivity.this, "Llene todos los campos", Toast.LENGTH_SHORT).show();
+            activar_btn();
+        }
+    }
+
+    /*
+    private void CalificacionWebinar(CalificacionComentario calificaComen)//APIService apiService)
+    {
+        apiService = ApiUtils.getAPIService();
+        Call<ResponseBody>call=apiService.CalificaWebinar(token,calificaComen);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(DetailEditActivity.this,"Gracias por comentar",Toast.LENGTH_SHORT).show();
+                activar_btn();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("Error al calificar Web","error: "+t.getMessage());
+                activar_btn();
+            }
+        });
+    }*/
+
     @Override
     public void onBackPressed() {
         redirigir_home();
     }
-
-
-
 }

@@ -93,7 +93,6 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
 
         if (webinars!=null) {
             for (Webinar w : webinars) {
-
                 itemLists.add(new ItemList(w.getId(),w.getTitle(), w.getDescription(), R.drawable.img_base));
                 Log.d("MyApp","for de webinar ");
             }
