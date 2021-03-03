@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static String Rol="no hay nada";
 
 
-    Usuario Usuario;
+ //   Usuario Usuario;
    // ArrayList <Roles> roles = new ArrayList<Roles>() ;
 
 
@@ -64,11 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         lblloginView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                intent.putExtra("token",token);
-                intent.putExtra("rol",Rol);
-                startActivity(intent);
-                finish();
+               redireccionar_login();
             }
         });
 
@@ -124,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful())
                 {
-                    Toast.makeText(RegisterActivity.this, "Enviado con exito", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registrado con exito", Toast.LENGTH_SHORT).show();
 
                     String jspn = null;
                     try {
@@ -144,13 +140,13 @@ public class RegisterActivity extends AppCompatActivity {
                             JSONObject rol_json= roles_json.getJSONObject(0);
                             Rol=rol_json.getString("authority");
 
-
                         } catch (JSONException e) {
 
                             e.printStackTrace();
                         }
                     Log.d("MyApp",token);
                     Log.d("MyApp _Rol",Rol);
+                    redireccionar_login();
 
 
 
@@ -165,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    titulo.setText(t.getMessage());
+                    Log.d("registro_user","Error"+(t.getMessage()));
             }
         });
 
@@ -196,9 +192,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+        redireccionar_login();
+    }
+
+    private void redireccionar_login()
+    {
         //String t="Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE2MTQyODQ2NDMsImV4cCI6MTYxNTQ5NDI0M30.295RSjkJOJFrmxWAD2i-hgSqjrXxBtkv3NAH9nSVwvY";
         Intent intent = new Intent(this, LoginActivity.class);
-      //  intent.putExtra("token",t);
+        //  intent.putExtra("token",t);
         startActivity(intent);
         finish();
     }

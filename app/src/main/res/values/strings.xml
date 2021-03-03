@@ -68,8 +68,15 @@
     <string name="observacion">Observacion</string>
     <string name="in_estado">Cambiar Estado</string>
     <string name="t_estado">Estado</string>
-
     <string name="edtxt_comentar">Comentar</string>
     <string name="btn_comantarycalificar">Comentar</string>
 
+    <string name="btn_Rechazado"> RECHAZADO</string>
+    <string name="btn_aceptado">ACEPTADO</string>
+    <string name="btn_Registrado">REGISTRADO</string>
+    <string name="btn_Revisando">REVISANDO</string>
+    <string name="btn_caducado">CADUCADO</string>
+    <string name="btn_todos">TODOS</string>
+    <string name="btn_ingresar_web">INGRESAR WEBINAR</string>
+    <string name="btn_actualizar">ACTUALIZAR</string>
 </resources>
