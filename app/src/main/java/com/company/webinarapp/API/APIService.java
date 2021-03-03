@@ -1,5 +1,6 @@
 package com.company.webinarapp.API;
 
+import com.company.webinarapp.DAO.CalificacionComentario;
 import com.company.webinarapp.DAO.ListadoWebinar;
 import com.company.webinarapp.DAO.ObjetoWebinar;
 import com.company.webinarapp.DAO.Usuario;
@@ -50,5 +51,8 @@ public interface APIService {
 
     @PUT("webinar/update/{webinarId}")
     Call<ResponseBody> UpdateWebinar(@Body Webinar web, @Header("Authorization") String token,@Path("webinarId") int id);
+
+    @POST("webinar/rate/{webinarId}")
+    Call<ResponseBody> CalificaWebinar(@Path("webinarId") int id,@Header("Authorization") String token,@Body CalificacionComentario rating);
 
 }

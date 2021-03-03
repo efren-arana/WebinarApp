@@ -114,8 +114,8 @@ public class HomeUserActivity extends AppCompatActivity implements RecyclerAdapt
 
         if (webinars!=null) {
             for (Webinar w : webinars) {
-                String fitro="ACEPTADO";
-                if(fitro == w.getStatusWebinar() || (w.getStatusWebinar() != null && w.getStatusWebinar().equals(fitro))){
+        //        String fitro="ACEPTADO";
+        //        if(fitro == w.getStatusWebinar() || (w.getStatusWebinar() != null && w.getStatusWebinar().equals(fitro))){
                 itemLists.add(new ItemList(w.getId(),w.getTitle(), w.getDescription(), R.drawable.img_base));
                 Log.d("MyApp","for de webinar "+fitro);
                 }
